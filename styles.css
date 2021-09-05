@@ -70,6 +70,7 @@ h1 {
   color: #333;
   font-weight: bold;
   border: solid 1px #333;
+  cursor: pointer;
 }
 
 .toggle--active {
