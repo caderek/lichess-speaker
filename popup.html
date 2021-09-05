@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Chess Countdown</h1>
+    <div class="box">
+      <button id="toggle" class="toggle" data-status="off">INACTIVE</button>
+      <p class="row">
+        <span>Volume: </span>
+        <input
+          type="range"
+          id="volume"
+          class="volume"
+          min="0"
+          max="100"
+          value="50"
+        />
+      </p>
+      <p class="row">
+        <span>Start counting (sec): </span>
+        <input type="number" min="0" max="10" name="countdown" id="countdown" />
+      </p>
+      <p class="row">
+        <span>Say moments: </span>
+        <textarea name="moments" id="moments" rows="10"></textarea>
+      </p>
+      <div class="info">
+        Author: Maciej Caderek<br />Projects page: <a href="">Github</a>
+      </div>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>

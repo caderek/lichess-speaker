@@ -1,0 +1,106 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+}
+
+.box {
+  width: 300px;
+  height: 300px;
+  padding: 20px;
+}
+
+h1 {
+  font-family: sans-serif;
+  font-size: 2rem;
+  background-image: linear-gradient(
+    -225deg,
+    #2cd8d5 0%,
+    #c5c1ff 56%,
+    #ffbac3 100%
+  );
+  padding: 20px;
+  padding-right: 150px;
+  color: white;
+}
+
+.row {
+  font-size: 1.3rem;
+  margin-top: 20px;
+  color: #555;
+  position: relative;
+}
+
+.row > span {
+  position: relative;
+  top: 5px;
+}
+
+.row > input,
+.row > textarea {
+  position: absolute;
+  right: 0;
+  padding: 5px;
+  border: solid 1px #ccc;
+  width: 100px;
+}
+
+.row > input:focus,
+.row > textarea:focus {
+  border: solid 1px #aaa;
+  outline: none;
+}
+
+.toggle {
+  padding: 10px;
+  border-radius: 5px;
+  background-image: linear-gradient(to right, #f9d423 0%, #ff4e50 100%);
+  border: none;
+  color: black;
+  position: absolute;
+  right: 20px;
+  top: 25px;
+  width: 100px;
+  text-align: center;
+  outline: none;
+  color: #333;
+  font-weight: bold;
+  border: solid 1px #333;
+}
+
+.toggle--active {
+  background-image: linear-gradient(to top, #50cc7f 0%, #f5d100 100%);
+}
+
+.debug {
+  width: 300px;
+  height: 300px;
+  background-color: lavender;
+}
+
+.info {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: #aaa;
+  font-size: 1.1rem;
+}
+
+a {
+  color: #008fff;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #008fff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #008fff;
+  text-decoration: underline;
+}
