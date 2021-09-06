@@ -2,7 +2,7 @@
 
 Browser extension that uses voice synthesis to reminds you of the remaining time during the Lichess chess game, and starts the countdown when you are very low on time.
 
-![screenshot](./chess-countdown.png)
+![screenshot](./preview.png)
 
 ## License
 
