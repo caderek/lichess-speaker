@@ -14,25 +14,26 @@ html {
   padding: 20px;
 }
 
+body {
+  font-family: "DejaVu Sans", Arial, sans-serif;
+}
+
 h1 {
-  font-family: sans-serif;
   font-size: 2rem;
-  background-image: linear-gradient(
-    -225deg,
-    #2c71d8 0%,
-    #6c66c0 56%,
-    #fc5b5b 100%
-  );
+  background-color: #03d2ff;
+  background-image: url(images/bg.png);
+  background-position: center;
   padding: 20px;
   padding-right: 150px;
   color: white;
+  text-shadow: 1px 1px 2px #333;
 }
 
 .row {
   font-size: 1.3rem;
-  margin-top: 20px;
   color: #555;
   position: relative;
+  margin-bottom: 20px;
 }
 
 .row > span {
@@ -62,7 +63,7 @@ h1 {
 .toggle {
   padding: 10px;
   border-radius: 5px;
-  background-image: linear-gradient(to right, #f9d423 0%, #ff4e50 100%);
+  background-image: linear-gradient(to top, #ff797c 0%, #ff4c4f 100%);
   border: none;
   color: black;
   position: absolute;
@@ -73,12 +74,12 @@ h1 {
   outline: none;
   color: #333;
   font-weight: bold;
-  border: solid 1px #333;
+  border: solid 2px #333;
   cursor: pointer;
 }
 
 .toggle--active {
-  background-image: linear-gradient(to top, #50cc7f 0%, #f5d100 100%);
+  background-image: linear-gradient(to top, #65ffa0 0%, #29b45f 100%);
 }
 
 .debug {
