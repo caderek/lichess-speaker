@@ -41,16 +41,20 @@ h1 {
 }
 
 .row > input,
-.row > textarea {
+.row > textarea,
+.row > select {
   position: absolute;
   right: 0;
   padding: 5px;
   border: solid 1px #ccc;
   width: 100px;
+  outline: none;
+  background: white;
 }
 
 .row > input:focus,
-.row > textarea:focus {
+.row > textarea:focus,
+.row > select:focus {
   border: solid 1px #aaa;
   outline: none;
 }

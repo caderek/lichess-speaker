@@ -1,65 +1,101 @@
-const $toggle = document.getElementById("toggle");
-const $volume = document.getElementById("volume");
-const $countdown = document.getElementById("countdown");
-const $moments = document.getElementById("moments");
+const main = () => {
+  const $toggle = document.getElementById("toggle");
+  const $volume = document.getElementById("volume");
+  const $countdown = document.getElementById("countdown");
+  const $moments = document.getElementById("moments");
+  const $voice = document.getElementById("voice");
 
-const turnOn = () => {
-  $toggle.classList.add("toggle--active");
-  $toggle.innerText = "ACTIVE";
-  $toggle.dataset.status = "on";
-};
+  const voices = speechSynthesis.getVoices();
+  const defaultVoice = voices.find((item) => (item.lang = "en-US"));
 
-chrome.storage.sync.get(
-  ["active", "volume", "sayMoments", "countdownWhen"],
-  (config) => {
-    if (config.active) {
-      turnOn();
+  const voiceOptions = voices
+    .map(
+      (voice) =>
+        `<option value="${voice.name}">${voice.name
+          .replace(/Google/gi, "")
+          .trim()}</option>`
+    )
+    .join("\n");
+
+  $voice.innerHTML = voiceOptions;
+
+  const turnOn = () => {
+    $toggle.classList.add("toggle--active");
+    $toggle.innerText = "ACTIVE";
+    $toggle.dataset.status = "on";
+  };
+
+  chrome.storage.sync.get(
+    ["active", "volume", "sayMoments", "countdownWhen", "voice", "lang"],
+    (config) => {
+      if (config.active) {
+        turnOn();
+      }
+
+      $volume.value = config.volume;
+      $countdown.value = config.countdownWhen;
+      $moments.value = config.sayMoments.join("\n");
+
+      const selectedVoice = voices.find((item) => {
+        return config.voice
+          ? item.name === config.voice
+          : item.lang === config.lang;
+      });
+
+      const lang = selectedVoice ? selectedVoice.lang : defaultVoice.lang;
+      const voice = selectedVoice ? selectedVoice.name : defaultVoice.name;
+      chrome.storage.sync.set({ lang, voice });
+
+      $voice.querySelector(`option[value="${voice}"]`).selected = true;
     }
-
-    $volume.value = config.volume;
-    $countdown.value = config.countdownWhen;
-    $moments.value = config.sayMoments.join("\n");
-  }
-);
-
-$toggle.addEventListener("click", () => {
-  if ($toggle.dataset.status === "on") {
-    $toggle.classList.remove("toggle--active");
-    $toggle.innerText = "INACTIVE";
-    $toggle.dataset.status = "off";
-    chrome.storage.sync.set({ active: false });
-  } else {
-    turnOn();
-    chrome.storage.sync.set({ active: true });
-  }
-});
-
-$volume.addEventListener("change", () => {
-  chrome.storage.sync.set({ volume: Number($volume.value) });
-});
-
-const updateCountdown = () => {
-  const val = Math.min(Number($countdown.value), 10);
-  $countdown.value = val;
-  chrome.storage.sync.set({ countdownWhen: val });
-};
-
-$countdown.addEventListener("change", updateCountdown);
-$countdown.addEventListener("input", updateCountdown);
-
-const updateMoments = () => {
-  const raw = $moments.value;
-  const items = (raw.match(/\d+\:\d\d/g) || []).map((moment) =>
-    moment.padStart(5, "0")
   );
-  chrome.storage.sync.set({ sayMoments: items });
 
-  return items.join("\n");
+  $toggle.addEventListener("click", () => {
+    if ($toggle.dataset.status === "on") {
+      $toggle.classList.remove("toggle--active");
+      $toggle.innerText = "INACTIVE";
+      $toggle.dataset.status = "off";
+      chrome.storage.sync.set({ active: false });
+    } else {
+      turnOn();
+      chrome.storage.sync.set({ active: true });
+    }
+  });
+
+  $volume.addEventListener("change", () => {
+    chrome.storage.sync.set({ volume: Number($volume.value) });
+  });
+
+  const updateCountdown = () => {
+    const val = Math.min(Number($countdown.value), 10);
+    $countdown.value = val;
+    chrome.storage.sync.set({ countdownWhen: val });
+  };
+
+  $countdown.addEventListener("change", updateCountdown);
+  $countdown.addEventListener("input", updateCountdown);
+
+  const updateMoments = () => {
+    const raw = $moments.value;
+    const items = (raw.match(/\d+\:\d\d/g) || []).map((moment) =>
+      moment.padStart(5, "0")
+    );
+    chrome.storage.sync.set({ sayMoments: items });
+
+    return items.join("\n");
+  };
+
+  $moments.addEventListener("change", () => {
+    const val = updateMoments();
+    $moments.value = val;
+  });
+
+  $moments.addEventListener("input", updateMoments);
+
+  $voice.addEventListener("change", ({ target }) => {
+    const voice = voices.find((item) => item.name === target.value);
+    chrome.storage.sync.set({ voice: voice.name, lang: voice.lang });
+  });
 };
 
-$moments.addEventListener("change", () => {
-  const val = updateMoments();
-  $moments.value = val;
-});
-
-$moments.addEventListener("input", updateMoments);
+window.speechSynthesis.onvoiceschanged = main;
