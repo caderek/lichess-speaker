@@ -7,6 +7,10 @@
   };
 
   const intl = {
+    "de-DE": {
+      min: (num) => (num === 1 ? "Minute" : "Minuten"),
+      sec: (num) => (num === 1 ? "Sekunde" : "Sekunden"),
+    },
     "en-US": {
       min: (num) => (num === 1 ? "minute" : "minutes"),
       sec: (num) => (num === 1 ? "second" : "seconds"),
