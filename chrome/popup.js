@@ -4,6 +4,9 @@ const main = () => {
   const $countdown = document.getElementById("countdown");
   const $moments = document.getElementById("moments");
   const $voice = document.getElementById("voice");
+  const $rate = document.getElementById("rate");
+  const $readPlayer1 = document.getElementById("read-player-1");
+  const $readPlayer2 = document.getElementById("read-player-2");
 
   const voices = speechSynthesis.getVoices();
   const defaultVoice = voices.find((item) => (item.lang = "en-US"));
@@ -26,15 +29,28 @@ const main = () => {
   };
 
   chrome.storage.sync.get(
-    ["active", "volume", "sayMoments", "countdownWhen", "voice", "lang"],
+    [
+      "active",
+      "volume",
+      "rate",
+      "sayMoments",
+      "countdownWhen",
+      "voice",
+      "lang",
+      "readPlayer1",
+      "readPlayer2",
+    ],
     (config) => {
       if (config.active) {
         turnOn();
       }
 
       $volume.value = config.volume;
+      $rate.value = config.rate;
       $countdown.value = config.countdownWhen;
       $moments.value = config.sayMoments.join("\n");
+      $readPlayer1.checked = config.readPlayer1;
+      $readPlayer2.checked = config.readPlayer2;
 
       const selectedVoice = voices.find((item) => {
         return config.voice
@@ -66,6 +82,10 @@ const main = () => {
     chrome.storage.sync.set({ volume: Number($volume.value) });
   });
 
+  $rate.addEventListener("change", () => {
+    chrome.storage.sync.set({ rate: Number($rate.value) });
+  });
+
   const updateCountdown = () => {
     const val = Math.min(Number($countdown.value), 10);
     $countdown.value = val;
@@ -95,6 +115,16 @@ const main = () => {
   $voice.addEventListener("change", ({ target }) => {
     const voice = voices.find((item) => item.name === target.value);
     chrome.storage.sync.set({ voice: voice.name, lang: voice.lang });
+  });
+
+  $readPlayer1.addEventListener("change", () => {
+    const val = $readPlayer1.checked;
+    chrome.storage.sync.set({ readPlayer1: val });
+  });
+
+  $readPlayer2.addEventListener("change", () => {
+    const val = $readPlayer2.checked;
+    chrome.storage.sync.set({ readPlayer2: val });
   });
 };
 

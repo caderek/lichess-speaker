@@ -10,7 +10,7 @@ html {
 
 .box {
   width: 300px;
-  height: 300px;
+  height: 365px;
   padding: 20px;
 }
 
@@ -41,7 +41,9 @@ h1 {
   top: 5px;
 }
 
-.row > input,
+.row > input[type="text"],
+.row > input[type="number"],
+.row > input[type="range"],
 .row > textarea,
 .row > select {
   position: absolute;
@@ -53,11 +55,34 @@ h1 {
   background: white;
 }
 
-.row > input:focus,
+.row > input[type="text"]:focus,
+.row > input[type="number"]:focus,
+.row > input[type="range"]:focus,
 .row > textarea:focus,
 .row > select:focus {
   border: solid 1px #aaa;
   outline: none;
+}
+
+.read__box {
+  width: 100px;
+  position: absolute;
+  right: 0;
+  top: 6px;
+}
+
+.read {
+  border-color: #ccc;
+  margin-right: 5px;
+}
+.read:focus {
+  border-color: #ccc;
+}
+
+.read__label {
+  position: relative;
+  top: -2px;
+  margin-right: 10px;
 }
 
 .toggle {
