@@ -163,6 +163,20 @@
     "nl-NL": {
       min: (num) => (num === 1 ? "minuut" : "minuten"),
       sec: (num) => (num === 1 ? "seconde" : "seconden"),
+      moves: {
+        x: " slaat ",
+        "+": " schaak",
+        "#": " mat",
+        "=": " promoveert ",
+        P: "pion ",
+        R: "toren ",
+        B: "loper ",
+        N: "paard ",
+        Q: "dame ",
+        K: "koning ",
+        "O-O": "korte rokade",
+        "O-O-O": "lange rokade",
+      },
     },
     "pt-BR": {
       min: (num) => (num === 1 ? "minuto" : "minutos"),
