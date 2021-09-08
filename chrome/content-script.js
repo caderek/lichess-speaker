@@ -141,8 +141,8 @@
       },
     },
     "hi-IN": {
-      min: (num) => "मिनट",
-      sec: (num) => "सेकेंड",
+      min: () => "मिनट",
+      sec: () => "सेकेंड",
       moves: {
         x: " मार दिया ",
         "+": " /शाह",
@@ -159,8 +159,22 @@
       },
     },
     "id-ID": {
-      min: (num) => "menit",
-      sec: (num) => "detik",
+      min: () => "menit",
+      sec: () => "detik",
+      moves: {
+        x: " takes ",
+        "+": " Sekak",
+        "#": " Sekakmat",
+        "=": " promotes ",
+        P: "pion ",
+        R: "benteng ",
+        B: "gajah ",
+        N: "kuda ",
+        Q: "menteri ",
+        K: "raja ",
+        "O-O": "short castle",
+        "O-O-O": "long castle",
+      },
     },
     "it-IT": {
       min: (num) => (num === 1 ? "minuto" : "minuti"),
@@ -181,12 +195,12 @@
       },
     },
     "ja-JP": {
-      min: (num) => "分",
-      sec: (num) => "秒",
+      min: () => "分",
+      sec: () => "秒",
     },
     "ko-KR": {
-      min: (num) => "분",
-      sec: (num) => "초",
+      min: () => "분",
+      sec: () => "초",
     },
     "nl-NL": {
       min: (num) => (num === 1 ? "minuut" : "minuten"),
@@ -245,8 +259,8 @@
       },
     },
     "zh-CN": {
-      min: (num) => "分钟",
-      sec: (num) => "秒",
+      min: () => "分钟",
+      sec: () => "秒",
       moves: {
         x: " 杀 ",
         "+": " 将军",
@@ -263,8 +277,8 @@
       },
     },
     "zh-HK": {
-      min: (num) => "分钟",
-      sec: (num) => "秒",
+      min: () => "分钟",
+      sec: () => "秒",
       moves: {
         x: " 杀 ",
         "+": " 将军",
@@ -281,8 +295,8 @@
       },
     },
     "zh-TW": {
-      min: (num) => "分钟",
-      sec: (num) => "秒",
+      min: () => "分钟",
+      sec: () => "秒",
       moves: {
         x: " 杀 ",
         "+": " 将军",
@@ -364,8 +378,6 @@
             .join("")
             .replace(/\s{2,}/g, " ");
         }
-
-        console.log(move);
 
         const info = new SpeechSynthesisUtterance(move);
         info.volume = config.volume / 100;
