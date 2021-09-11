@@ -72,10 +72,34 @@
       },
     },
     "pl-PL": {
-      min: (num) =>
-        num === 1 ? "minuta" : num > 1 && num < 5 ? "minuty" : "minut",
-      sec: (num) =>
-        num === 1 ? "sekunda" : num > 1 && num < 5 ? "sekundy" : "sekund",
+      min: (num) => {
+        if (num === 1) {
+          return "minuta";
+        }
+
+        const str = String(num);
+        const last = Number(str[str.length - 1]);
+
+        if (last > 1 && last < 5) {
+          return "minuty";
+        }
+
+        return "minut";
+      },
+      sec: (num) => {
+        if (num === 1) {
+          return "sekunda";
+        }
+
+        const str = String(num);
+        const last = Number(str[str.length - 1]);
+
+        if (last > 1 && last < 5) {
+          return "sekundy";
+        }
+
+        return "sekund";
+      },
       moves: {
         x: " bije ",
         "+": " szach",
@@ -305,10 +329,34 @@
       },
     },
     "ru-RU": {
-      min: (num) =>
-        num === 1 ? "минута" : num > 1 && num < 5 ? "минуты" : "минут",
-      sec: (num) =>
-        num === 1 ? "секунда" : num > 1 && num < 5 ? "секунды" : "секунд",
+      min: (num) => {
+        if (num === 1) {
+          return "минута";
+        }
+
+        const str = String(num);
+        const last = Number(str[str.length - 1]);
+
+        if (last > 1 && last < 5) {
+          return "минуты";
+        }
+
+        return "минут";
+      },
+      sec: (num) => {
+        if (num === 1) {
+          return "секунда";
+        }
+
+        const str = String(num);
+        const last = Number(str[str.length - 1]);
+
+        if (last > 1 && last < 5) {
+          return "секунды";
+        }
+
+        return "секунд";
+      },
       moves: {
         x: " берёт ",
         "+": " шах",
