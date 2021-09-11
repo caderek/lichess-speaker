@@ -1,4 +1,4 @@
-# Chess Countdown
+# Lichess Speaker
 
 Lichess extension that uses voice synthesis to
 
