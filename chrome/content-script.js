@@ -4,6 +4,8 @@
   let mute = false;
   let fullBlindfold = false;
   let timeControl = "Bullet";
+  let moveTime = 0;
+  let playersTurn = false;
 
   const intl = {
     "de-DE": {
@@ -455,6 +457,11 @@
       const $moves = $node.querySelectorAll("u8t");
       const turn = $moves.length % 2 === 0 ? "black" : "white";
 
+      if ($moves.length > movesLength) {
+        moveTime = 0;
+        playersTurn = turn === p2;
+      }
+
       if (
         (turn === p1 && !config.readPlayer1) ||
         (turn === p2 && !config.readPlayer2) ||
@@ -532,6 +539,14 @@
         const text = `${minText} ${secText}`;
 
         say(text, voices);
+      }
+
+      if (playersTurn) {
+        moveTime++;
+
+        if (sayMoments.move.some((maxMoveTime) => maxMoveTime === moveTime)) {
+          say(getIntl(config.lang).alerts.move, voices);
+        }
       }
 
       last = sec;
