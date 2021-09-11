@@ -15,7 +15,7 @@
         x: " schlägt ",
         "+": " Schach",
         "#": " Schachmatt",
-        "=": " verwandelt ",
+        "=": " umgewandelt ",
         P: "Bauer ",
         R: "Turm ",
         B: "Läufer ",
@@ -26,7 +26,7 @@
         "O-O-O": "lange Rochade",
       },
       alerts: {
-        move: "Move!",
+        move: "Bewegung!",
       },
     },
     "en-US": {
@@ -91,7 +91,7 @@
         "O-O-O": "długa roszada",
       },
       alerts: {
-        move: "Rusz się!",
+        move: "Wykonaj ruch!",
       },
     },
     "es-ES": {
@@ -112,7 +112,7 @@
         "O-O-O": "enroque largo",
       },
       alerts: {
-        move: "Move!",
+        move: "¡Moverse!",
       },
     },
     "es-US": {
@@ -133,7 +133,7 @@
         "O-O-O": "enroque largo",
       },
       alerts: {
-        move: "Move!",
+        move: "¡Moverse!",
       },
     },
     "fr-FR": {
@@ -154,7 +154,7 @@
         "O-O-O": "grand roque",
       },
       alerts: {
-        move: "Move!",
+        move: "Se déplacer!",
       },
     },
     "hi-IN": {
@@ -175,28 +175,28 @@
         "O-O-O": "/दीर्घ कैसल",
       },
       alerts: {
-        move: "Move!",
+        move: "कदम!",
       },
     },
     "id-ID": {
       min: () => "menit",
       sec: () => "detik",
       moves: {
-        x: " takes ",
+        x: " tangkap ",
         "+": " Sekak",
         "#": " Sekakmat",
-        "=": " promotes ",
+        "=": " promosi ",
         P: "pion ",
         R: "benteng ",
         B: "gajah ",
         N: "kuda ",
         Q: "menteri ",
         K: "raja ",
-        "O-O": "short castle",
-        "O-O-O": "long castle",
+        "O-O": "rokade pendek",
+        "O-O-O": "rokade jauh",
       },
       alerts: {
-        move: "Move!",
+        move: "Melangkah!",
       },
     },
     "it-IT": {
@@ -217,49 +217,49 @@
         "O-O-O": "arrocco lungo",
       },
       alerts: {
-        move: "Move!",
+        move: "Spostare!",
       },
     },
     "ja-JP": {
       min: () => "分",
       sec: () => "秒",
       moves: {
-        x: " takes ",
-        "+": " check",
-        "#": " mate",
-        "=": " promotes ",
-        P: "pawn ",
-        R: "rook ",
-        B: "bishop ",
-        N: "knight ",
-        Q: "queen ",
-        K: "king ",
-        "O-O": "short castle",
-        "O-O-O": "long castle",
-      },
-      alerts: {
-        move: "Move!",
-      },
-    },
-    "ko-KR": {
-      min: () => "분",
-      sec: () => "초",
-      moves: {
-        x: " takes ",
-        "+": " 王手",
-        "#": " 詰み",
-        "=": " promotes ",
+        x: " とる ",
+        "+": " チェック",
+        "#": " チェックメイト",
+        "=": " プロモーション ",
         P: "ポーン  ",
         R: "ルーク ",
         B: "ビショップ ",
         N: "ナイト ",
         Q: "クイーン ",
         K: "キング ",
-        "O-O": "short castle",
-        "O-O-O": "long castle",
+        "O-O": "キャスリングショート",
+        "O-O-O": "キャスリングロング",
       },
       alerts: {
-        move: "Move!",
+        move: "動く！",
+      },
+    },
+    "ko-KR": {
+      min: () => "분",
+      sec: () => "초",
+      moves: {
+        x: " 캡처 ",
+        "+": " 체크",
+        "#": " 체크메이트",
+        "=": " 촉진 ",
+        P: "폰  ",
+        R: "룩 ",
+        B: "비숍 ",
+        N: "나이트 ",
+        Q: "퀸 ",
+        K: "킹 ",
+        "O-O": "캐슬링 쇼트",
+        "O-O-O": "캐슬링 롱",
+      },
+      alerts: {
+        move: "이동하다!",
       },
     },
     "nl-NL": {
@@ -280,7 +280,7 @@
         "O-O-O": "lange rokade",
       },
       alerts: {
-        move: "Move!",
+        move: "Beweging!",
       },
     },
     "pt-BR": {
@@ -301,7 +301,7 @@
         "O-O-O": "roque grande",
       },
       alerts: {
-        move: "Move!",
+        move: "Mover!",
       },
     },
     "ru-RU": {
@@ -324,7 +324,7 @@
         "O-O-O": "длинная рокировка",
       },
       alerts: {
-        move: "Move!",
+        move: "двигайся!",
       },
     },
     "zh-CN": {
@@ -345,7 +345,7 @@
         "O-O-O": "长易位",
       },
       alerts: {
-        move: "Move!",
+        move: "移动！",
       },
     },
     "zh-HK": {
@@ -366,7 +366,7 @@
         "O-O-O": "长易位",
       },
       alerts: {
-        move: "Move!",
+        move: "移动！",
       },
     },
     "zh-TW": {
@@ -387,7 +387,7 @@
         "O-O-O": "长易位",
       },
       alerts: {
-        move: "Move!",
+        move: "移动！",
       },
     },
   };
@@ -541,7 +541,7 @@
         say(text, voices);
       }
 
-      if (playersTurn) {
+      if (playersTurn && !isTV) {
         moveTime++;
 
         if (sayMoments.move.some((maxMoveTime) => maxMoveTime === moveTime)) {
