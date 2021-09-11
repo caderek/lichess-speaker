@@ -1,15 +1,9 @@
 {
-  let config = {
-    active: true,
-    lang: "en-US",
-    voice: null,
-    volume: 0,
-    rate: 1,
-    sayMoments: [],
-    countdownWhen: 0,
-    readPlayer1: false,
-    readPlayer2: false,
-  };
+  const isTV = document.location.pathname.split("/").includes("tv");
+  let config = null;
+  let mute = false;
+  let fullBlindfold = false;
+  let timeControl = "Bullet";
 
   const intl = {
     "de-DE": {
@@ -29,6 +23,9 @@
         "O-O": "kurze Rochade",
         "O-O-O": "lange Rochade",
       },
+      alerts: {
+        move: "Move!",
+      },
     },
     "en-US": {
       min: (num) => (num === 1 ? "minute" : "minutes"),
@@ -47,6 +44,9 @@
         "O-O": "short castle",
         "O-O-O": "long castle",
       },
+      alerts: {
+        move: "Move!",
+      },
     },
     "en-GB": {
       min: (num) => (num === 1 ? "minute" : "minutes"),
@@ -64,6 +64,9 @@
         K: "king ",
         "O-O": "short castle",
         "O-O-O": "long castle",
+      },
+      alerts: {
+        move: "Move!",
       },
     },
     "pl-PL": {
@@ -85,6 +88,9 @@
         "O-O": "krótka roszada",
         "O-O-O": "długa roszada",
       },
+      alerts: {
+        move: "Rusz się!",
+      },
     },
     "es-ES": {
       min: (num) => (num === 1 ? "minuto" : "minutos"),
@@ -102,6 +108,9 @@
         K: "rey ",
         "O-O": "enroque corto",
         "O-O-O": "enroque largo",
+      },
+      alerts: {
+        move: "Move!",
       },
     },
     "es-US": {
@@ -121,6 +130,9 @@
         "O-O": "enroque corto",
         "O-O-O": "enroque largo",
       },
+      alerts: {
+        move: "Move!",
+      },
     },
     "fr-FR": {
       min: (num) => (num === 1 ? "minute" : "minutes"),
@@ -138,6 +150,9 @@
         K: "roi ",
         "O-O": "petit roque",
         "O-O-O": "grand roque",
+      },
+      alerts: {
+        move: "Move!",
       },
     },
     "hi-IN": {
@@ -157,6 +172,9 @@
         "O-O": "/लघु कैसल",
         "O-O-O": "/दीर्घ कैसल",
       },
+      alerts: {
+        move: "Move!",
+      },
     },
     "id-ID": {
       min: () => "menit",
@@ -174,6 +192,9 @@
         K: "raja ",
         "O-O": "short castle",
         "O-O-O": "long castle",
+      },
+      alerts: {
+        move: "Move!",
       },
     },
     "it-IT": {
@@ -193,14 +214,51 @@
         "O-O": "arrocco corto",
         "O-O-O": "arrocco lungo",
       },
+      alerts: {
+        move: "Move!",
+      },
     },
     "ja-JP": {
       min: () => "分",
       sec: () => "秒",
+      moves: {
+        x: " takes ",
+        "+": " check",
+        "#": " mate",
+        "=": " promotes ",
+        P: "pawn ",
+        R: "rook ",
+        B: "bishop ",
+        N: "knight ",
+        Q: "queen ",
+        K: "king ",
+        "O-O": "short castle",
+        "O-O-O": "long castle",
+      },
+      alerts: {
+        move: "Move!",
+      },
     },
     "ko-KR": {
       min: () => "분",
       sec: () => "초",
+      moves: {
+        x: " takes ",
+        "+": " 王手",
+        "#": " 詰み",
+        "=": " promotes ",
+        P: "ポーン  ",
+        R: "ルーク ",
+        B: "ビショップ ",
+        N: "ナイト ",
+        Q: "クイーン ",
+        K: "キング ",
+        "O-O": "short castle",
+        "O-O-O": "long castle",
+      },
+      alerts: {
+        move: "Move!",
+      },
     },
     "nl-NL": {
       min: (num) => (num === 1 ? "minuut" : "minuten"),
@@ -219,6 +277,9 @@
         "O-O": "korte rokade",
         "O-O-O": "lange rokade",
       },
+      alerts: {
+        move: "Move!",
+      },
     },
     "pt-BR": {
       min: (num) => (num === 1 ? "minuto" : "minutos"),
@@ -236,6 +297,9 @@
         K: "rei ",
         "O-O": "roque curto",
         "O-O-O": "roque grande",
+      },
+      alerts: {
+        move: "Move!",
       },
     },
     "ru-RU": {
@@ -257,6 +321,9 @@
         "O-O": "короткая рокировка",
         "O-O-O": "длинная рокировка",
       },
+      alerts: {
+        move: "Move!",
+      },
     },
     "zh-CN": {
       min: () => "分钟",
@@ -274,6 +341,9 @@
         K: "王 ",
         "O-O": "短易位",
         "O-O-O": "长易位",
+      },
+      alerts: {
+        move: "Move!",
       },
     },
     "zh-HK": {
@@ -293,6 +363,9 @@
         "O-O": "短易位",
         "O-O-O": "长易位",
       },
+      alerts: {
+        move: "Move!",
+      },
     },
     "zh-TW": {
       min: () => "分钟",
@@ -311,35 +384,67 @@
         "O-O": "短易位",
         "O-O-O": "长易位",
       },
+      alerts: {
+        move: "Move!",
+      },
     },
   };
 
+  /**
+   * Handles changes to the HTML node
+   */
+  const observe = ($node, handler) => {
+    const observer = new MutationObserver(handler);
+
+    observer.observe($node, {
+      attributes: false,
+      childList: true,
+      subtree: true,
+    });
+  };
+
+  /**
+   * Returns internationalization object
+   * */
   const getIntl = (lang) => intl[lang] || intl["en-US"];
 
-  const checkSite = () => {
-    return "lichess";
-  };
-
-  const getTargetNode = (site) => {
-    return document.querySelectorAll(".time")[1];
-  };
-
+  /**
+   * Returns moment in format "mm:ss"
+   */
   const getMoment = (min, sec) =>
     [String(min).padStart(2, "0"), String(sec).padStart(2, "0")].join(":");
 
-  const getTime = (targetNode, site) => {
-    return {
-      lichess() {
-        const min = Number(targetNode.childNodes[0].data);
-        const sec = Number(targetNode.childNodes[2].data);
-        const moment = getMoment(min, sec);
+  /**
+   * Returns the time on the player's clock
+   */
+  const getTime = ($node) => {
+    const min = Number($node.childNodes[0].data);
+    const sec = Number($node.childNodes[2].data);
+    const moment = getMoment(min, sec);
 
-        return [min, sec, moment];
-      },
-    }[site]();
+    return [min, sec, moment];
   };
 
-  const sayMoves = (targetNode, voices) => {
+  /**
+   * Uses speach synthesis to say the provided phrase
+   */
+  const say = (text, voices) => {
+    if (mute) {
+      return;
+    }
+
+    const info = new SpeechSynthesisUtterance(text);
+    info.volume = config.volume / 100;
+    info.lang = config.lang;
+    info.voice = voices.find((voice) => voice.name === config.voice);
+    info.rate = 1 + config.rate / 10;
+    speechSynthesis.speak(info);
+  };
+
+  /**
+   * Reads moves on the chessboard
+   */
+  const readMoves = ($node, voices) => {
     let movesLength = 0;
     const p1 = document.querySelector(".orientation-black") ? "black" : "white";
     const p2 = p1 === "black" ? "white" : "black";
@@ -347,12 +452,13 @@
     const handler = () => {
       const words = getIntl(config.lang).moves || getIntl("en-US").moves;
 
-      const $moves = targetNode.querySelectorAll("u8t");
-      const moveColor = $moves.length % 2 === 0 ? "black" : "white";
+      const $moves = $node.querySelectorAll("u8t");
+      const turn = $moves.length % 2 === 0 ? "black" : "white";
 
       if (
-        (moveColor === p1 && !config.readPlayer1) ||
-        (moveColor === p2 && !config.readPlayer2)
+        (turn === p1 && !config.readPlayer1) ||
+        (turn === p2 && !config.readPlayer2) ||
+        !config.active
       ) {
         return;
       }
@@ -363,6 +469,7 @@
         if (move === "O-O" || move === "O-O-O") {
           move = words[move];
         } else {
+          // Handles special cases like R2a6 ore Nbd2
           const special = move.match(/[a-h1-8][a-h][1-8]/);
 
           if (special) {
@@ -379,103 +486,168 @@
             .replace(/\s{2,}/g, " ");
         }
 
-        const info = new SpeechSynthesisUtterance(move);
-        info.volume = config.volume / 100;
-        info.lang = config.lang;
-        info.voice = voices.find((voice) => voice.name === config.voice);
-        info.rate = 1 + config.rate / 10;
-        speechSynthesis.speak(info);
-        movesLength++;
+        say(move, voices);
+        movesLength = $moves.length;
       }
     };
 
-    const observer = new MutationObserver(handler);
-
-    observer.observe(targetNode, {
-      attributes: false,
-      childList: true,
-      subtree: true,
-    });
+    observe($node, handler);
   };
 
-  const main = () => {
+  /**
+   * Reads player's clock status
+   */
+  const readClock = ($node, voices) => {
     let last = null;
-    const site = checkSite();
-    const targetNode = getTargetNode(site);
-    const movesNode = document.querySelector("rm6");
-    const voices = speechSynthesis.getVoices();
-
-    if (movesNode) {
-      sayMoves(movesNode, voices);
-    }
-
-    if (targetNode === undefined) return;
 
     const handler = () => {
-      if (!config.active) {
+      const [min, sec, moment] = getTime($node);
+      const allSeconds = min * 60 + sec;
+
+      if (sec === last || !config.active || !config.readTime) {
+        last = sec;
         return;
       }
 
-      const [min, sec, moment] = getTime(targetNode, site);
+      if (
+        min === 0 &&
+        sec <= config.countdownWhen &&
+        config.countdownWhen > 0
+      ) {
+        say(sec, voices);
+        last = sec;
+        return;
+      }
+
+      const sayMoments = config[`sayMoments${timeControl}`];
 
       if (
-        config.sayMoments.includes(moment) &&
-        sec !== last &&
-        (min !== 0 || sec > config.countdownWhen)
+        sayMoments.unique.includes(moment) ||
+        sayMoments.every.some((interval) => allSeconds % interval === 0)
       ) {
         const minText =
           min > 0 ? `${min} ${getIntl(config.lang).min(min)}` : "";
         const secText =
           sec > 0 ? `${sec} ${getIntl(config.lang).sec(sec)}` : "";
         const text = `${minText} ${secText}`;
-        const info = new SpeechSynthesisUtterance(text);
-        info.volume = config.volume / 100;
-        info.lang = config.lang;
-        info.voice = voices.find((voice) => voice.name === config.voice);
-        info.rate = 1 + config.rate / 10;
 
-        speechSynthesis.speak(info);
-      } else if (min === 0 && sec <= config.countdownWhen && sec !== last) {
-        const info = new SpeechSynthesisUtterance(sec);
-        info.volume = config.volume / 100;
-        info.lang = config.lang;
-        info.voice = voices.find((voice) => voice.name === config.voice);
-        info.rate = 1 + config.rate / 10;
-        speechSynthesis.speak(info);
+        say(text, voices);
       }
+
       last = sec;
     };
 
-    const observer = new MutationObserver(handler);
-
-    observer.observe(targetNode, {
-      attributes: false,
-      childList: true,
-      subtree: true,
-    });
+    observe($node, handler);
   };
 
+  /**
+   * Initializes reading fuctions
+   */
+  const main = () => {
+    const $clock = document.querySelectorAll(".time")[1];
+    const $moves = document.querySelector("rm6");
+    const $setup = document.querySelector(".setup");
+
+    const voices = speechSynthesis.getVoices();
+
+    if ($setup) {
+      const match = $setup.innerText.match(/Bullet|Blitz|Rapid|Classical/i);
+      timeControl = match ? match[0] : timeControl;
+    }
+
+    if ($moves) {
+      readMoves($moves, voices);
+    }
+
+    if ($clock) {
+      readClock($clock, voices);
+    }
+  };
+
+  /**
+   * Sorts different types of moments into separate categories
+   */
+  const prepareMoments = (rawMoments) => {
+    const moments = { move: [], every: [], unique: [] };
+    rawMoments.forEach((raw) => {
+      if (raw.length === 5) {
+        moments.unique.push(raw);
+      } else {
+        const [kind, moment] = raw.split(" ");
+        const [min, sec] = moment.split(":").map(Number);
+        const allSeconds = min * 60 + sec;
+        moments[kind].push(allSeconds);
+      }
+    });
+
+    return moments;
+  };
+
+  /**
+   * Initializes user's config and starts the script
+   */
   chrome.storage.sync.get(
     [
       "active",
       "volume",
       "rate",
-      "sayMoments",
+      "sayMomentsBullet",
+      "sayMomentsBlitz",
+      "sayMomentsRapid",
+      "sayMomentsClassical",
       "countdownWhen",
       "voice",
       "lang",
       "readPlayer1",
       "readPlayer2",
+      "readTime",
     ],
     (data) => {
       config = data;
+      config.sayMomentsBullet = prepareMoments(data.sayMomentsBullet);
+      config.sayMomentsBlitz = prepareMoments(data.sayMomentsBlitz);
+      config.sayMomentsRapid = prepareMoments(data.sayMomentsRapid);
+      config.sayMomentsClassical = prepareMoments(data.sayMomentsClassical);
       window.speechSynthesis.onvoiceschanged = main;
     }
   );
 
+  /**
+   * Handles updates to the user's config
+   */
   chrome.storage.onChanged.addListener((changes) => {
     for (let [key, { newValue }] of Object.entries(changes)) {
-      config[key] = newValue;
+      config[key] = key.includes("sayMoments")
+        ? prepareMoments(newValue)
+        : newValue;
+    }
+  });
+
+  /**
+   * Keyboard shortcuts handler
+   */
+  document.addEventListener("keydown", (e) => {
+    switch (e.key) {
+      case "m":
+        mute = !mute;
+        break;
+      case "t":
+        document.querySelector(".main-board").classList.toggle("blindfold");
+        break;
+      case "T":
+        const $board = document.querySelector(".main-board");
+        const $moves = document.querySelector("rm6");
+
+        fullBlindfold = !fullBlindfold;
+
+        if (fullBlindfold) {
+          $board.style.opacity = 0;
+          $moves.style.opacity = 0;
+        } else {
+          $board.style.opacity = 1;
+          $moves.style.opacity = 1;
+        }
+        break;
     }
   });
 }

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>LICHESS SPEAKER</h1>
+    <div class="box">
+      <button id="toggle" class="toggle" data-status="off">INACTIVE</button>
+      <div class="row">
+        <button
+          id="read-time"
+          class="read__toggle read__toggle--clock"
+          title="Read time"
+        ></button>
+        <button
+          id="read-player-1"
+          class="read__toggle read__toggle--player-1"
+          title="Read moves - player 1"
+        ></button>
+        <button
+          id="read-player-2"
+          class="read__toggle read__toggle--player-2 read__toggle--last"
+          title="Read moves - player 2"
+        ></button>
+
+        <button class="ico ico--voice" title="Voice"></button>
+        <select name="voice" id="voice"></select>
+      </div>
+      <div class="row row--short">
+        <button class="ico ico--volume" title="Volume"></button>
+        <input
+          type="range"
+          id="volume"
+          class="volume"
+          min="0"
+          max="100"
+          value="50"
+        />
+        <button class="ico ico--rate" title="Reading speed"></button>
+        <input type="range" id="rate" class="rate" min="0" max="10" value="1" />
+      </div>
+    </div>
+    <h2 class="countdown__title">Countdown (sec)</h2>
+    <div class="countdown" id="countdown">
+      <button class="countdown__val countdown__val--off" data-val="0">
+        OFF
+      </button>
+      <button class="countdown__val" data-val="1">1</button>
+      <button class="countdown__val" data-val="2">2</button>
+      <button class="countdown__val" data-val="3">3</button>
+      <button class="countdown__val" data-val="4">4</button>
+      <button class="countdown__val" data-val="5">5</button>
+      <button class="countdown__val" data-val="6">6</button>
+      <button class="countdown__val" data-val="7">7</button>
+      <button class="countdown__val" data-val="8">8</button>
+      <button class="countdown__val" data-val="9">9</button>
+      <button class="countdown__val countdown__val--last" data-val="10">
+        10
+      </button>
+    </div>
+
+    <h2 class="alerts__title">Alerts</h2>
+    <div class="alerts">
+      <div class="alerts__examples">
+        <h3>Usage:</h3>
+        <ul>
+          <li>
+            <code>mm:ss</code>
+            <p>- specific moment</p>
+          </li>
+          <li>
+            <code>every mm:ss</code>
+            <p>- interval</p>
+          </li>
+          <li>
+            <code>move mm:ss</code>
+            <p>- move time</p>
+          </li>
+        </ul>
+      </div>
+      <div class="alerts__setup">
+        <div class="tabs" id="tabs">
+          <button
+            class="tab tab--bullet"
+            data-type="Bullet"
+            title="Bullet"
+          ></button>
+          <button
+            class="tab tab--blitz"
+            data-type="Blitz"
+            title="Blitz"
+          ></button>
+          <button
+            class="tab tab--rapid"
+            data-type="Rapid"
+            title="Rapid"
+          ></button>
+          <button
+            class="tab tab--classical"
+            data-type="Classical"
+            title="Classical"
+          ></button>
+        </div>
+        <textarea name="moments" id="moments" rows="6"></textarea>
+      </div>
+    </div>
+    <div class="shortcuts">
+      <p class="shortcuts__title">In-game keyboard shortcuts:</p>
+      <p class="shortcuts__entry">
+        <kbd>m</kbd><span class="shortcuts__label">temporary mute</span>
+      </p>
+      <p class="shortcuts__entry">
+        <kbd>t</kbd><span class="shortcuts__label">hide pieces</span>
+      </p>
+      <p class="shortcuts__entry">
+        <kbd>T</kbd
+        ><span class="shortcuts__label"
+          >full blindfold (<a
+            href="https://lichess.org/account/preferences/game-behavior"
+            target="_blank"
+            >set keyboard input</a
+          >)</span
+        >
+      </p>
+    </div>
+    <div class="info">
+      Author:
+      <a href="https://github.com/caderek" target="_blank">Maciej Caderek</a>
+      &nbsp;&nbsp;&nbsp;Project page:
+      <a
+        href="https://github.com/caderek/chess-countdown-plugin"
+        target="_blank"
+        >Github</a
+      >
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
