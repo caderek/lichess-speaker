@@ -581,7 +581,7 @@
         sayMoments.every.some((interval) => allSeconds % interval === 0)
       ) {
         const minText =
-          min > 0 ? `${min} ${getIntl(config.lang).min(min)}` : "";
+          min > 0 ? `${min} ${getIntl(config.lang).min(min)},` : "";
         const secText =
           sec > 0 ? `${sec} ${getIntl(config.lang).sec(sec)}` : "";
         const text = `${minText} ${secText}`;
