@@ -592,7 +592,10 @@
       if (playersTurn && !isTV) {
         moveTime++;
 
-        if (sayMoments.move.some((maxMoveTime) => maxMoveTime === moveTime)) {
+        if (
+          sayMoments.move.includes(moveTime) ||
+          sayMoments["move-every"].some((interval) => moveTime % interval === 0)
+        ) {
           say(getIntl(config.lang).alerts.move, voices);
         }
       }
@@ -631,7 +634,7 @@
    * Sorts different types of moments into separate categories
    */
   const prepareMoments = (rawMoments) => {
-    const moments = { move: [], every: [], unique: [] };
+    const moments = { move: [], "move-every": [], every: [], unique: [] };
     rawMoments.forEach((raw) => {
       if (raw.length === 5) {
         moments.unique.push(raw);
