@@ -13,6 +13,7 @@ const main = () => {
   const $readTime = document.getElementById("read-time");
   const $tabsBox = document.getElementById("tabs");
   const $tabs = document.querySelectorAll("#tabs button");
+  const $saySeconds = document.getElementById("say-seconds");
 
   const voices = speechSynthesis.getVoices();
   const defaultVoice = voices.find((item) => (item.lang = "en-US"));
@@ -50,6 +51,7 @@ const main = () => {
       "readPlayer2",
       "readTime",
       "tab",
+      "saySeconds",
     ],
     (config) => {
       tab = config.tab;
@@ -64,6 +66,7 @@ const main = () => {
       $readPlayer1.checked = config.readPlayer1;
       $readPlayer2.checked = config.readPlayer2;
       $readTime.checked = config.readTime;
+      $saySeconds.checked = config.saySeconds;
 
       if (config.readTime) {
         $readTime.classList.add("read__toggle--active");
@@ -198,6 +201,10 @@ const main = () => {
         $moments.value = config[momentsName].join("\n");
       });
     }
+  });
+
+  $saySeconds.addEventListener("change", () => {
+    chrome.storage.sync.set({ saySeconds: $saySeconds.checked });
   });
 };
 

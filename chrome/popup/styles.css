@@ -345,6 +345,7 @@ textarea {
   border-top: solid 1px #999;
   padding: 10px 15px;
   display: flex;
+  flex-flow: wrap;
 }
 
 .alerts__title,
@@ -375,6 +376,18 @@ textarea {
 .alerts__setup {
   position: relative;
   width: 120px;
+}
+
+.alerts__options {
+  display: flex;
+  align-items: center;
+  flex-basis: 100%;
+  margin-top: 5px;
+  font-size: 1.2rem;
+}
+
+.alerts__options > input[type="checkbox"] {
+  margin-right: 5px;
 }
 
 .alerts li {
