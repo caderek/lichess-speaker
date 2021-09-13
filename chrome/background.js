@@ -22,6 +22,7 @@ const defaultConfig = {
     "00:30",
     "00:15",
   ],
+  saySeconds: true,
   countdownWhen: 5,
   readPlayer1: false,
   readPlayer2: false,
