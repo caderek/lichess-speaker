@@ -49,7 +49,7 @@ pre {
 }
 
 .box {
-  width: 288px;
+  width: 308px;
   padding: 10px 15px 0;
 }
 
@@ -94,7 +94,7 @@ pre {
 .row > select {
   padding: 5px;
   border: solid 1px #ccc;
-  width: 120px;
+  width: 140px;
   outline: none;
   background: #f8f8f8;
   color: #555;
@@ -117,7 +117,7 @@ select {
 }
 
 .row > input[type="range"] {
-  width: 90px;
+  width: 100px;
   position: relative;
   top: -2px;
   cursor: pointer;
@@ -133,7 +133,9 @@ select {
 textarea {
   padding: 5px;
   border: solid 1px #ccc;
-  width: 120px;
+  width: 140px;
+  height: 142px;
+  white-space: nowrap;
   outline: none;
   background: #f8f8f8;
   color: #555;
@@ -303,7 +305,7 @@ textarea {
 }
 
 .countdown__val {
-  width: 22px;
+  width: 24px;
   height: 22px;
   font-size: 1.3rem;
   text-align: center;

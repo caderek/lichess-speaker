@@ -133,7 +133,7 @@ const main = () => {
   const updateMoments = () => {
     const raw = $moments.value;
     const items = (
-      raw.toLowerCase().match(/((every|move) +){0,1}\d+\:\d\d/g) || []
+      raw.toLowerCase().match(/((every|move-every|move) +){0,1}\d+\:\d\d/g) || []
     )
       .map((item) => {
         const segments = item.replace(/\s{2,}/g, " ").split(" ");
