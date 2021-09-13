@@ -60,9 +60,9 @@ pre {
   border: none;
   color: black;
   position: absolute;
-  right: 20px;
+  right: 15px;
   top: 12px;
-  width: 120px;
+  width: 140px;
   text-align: center;
   outline: none;
   color: #333;
@@ -259,10 +259,11 @@ textarea {
   z-index: 2;
   position: relative;
   top: 1px;
+  width: 140px;
 }
 
 .tab {
-  width: 30px;
+  width: 35px;
   height: 20px;
   background: #eee;
   border: solid 1px #ccc;
@@ -381,6 +382,7 @@ textarea {
 }
 
 .alerts__options {
+  color: #555;
   display: flex;
   align-items: center;
   flex-basis: 100%;
@@ -461,7 +463,7 @@ textarea {
 }
 
 .shortcuts p {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .shortcuts__title {

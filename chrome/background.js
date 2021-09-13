@@ -31,5 +31,13 @@ const defaultConfig = {
 };
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.set(defaultConfig);
+  chrome.storage.sync.get(Object.keys(defaultConfig), (config) => {
+    for (const key in defaultConfig) {
+      if (!config[key]) {
+        config[key] = defaultConfig[key];
+      }
+    }
+
+    chrome.storage.sync.set(config);
+  });
 });
