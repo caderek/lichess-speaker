@@ -582,17 +582,24 @@
       ) {
         const minText =
           min > 0 ? `${min} ${getIntl(config.lang).min(min)},` : "";
-        const secText =
-          sec > 0 ? `${sec} ${getIntl(config.lang).sec(sec)}` : "";
+        let secText = "";
+        if (sec > 0) {
+          secText = `${sec}`;
+          if (config.saySeconds) {
+            secText += ` ${getIntl(config.lang).sec(sec)}`;
+          }
+        }
         const text = `${minText} ${secText}`;
-
         say(text, voices);
       }
 
       if (playersTurn && !isTV) {
         moveTime++;
 
-        if (sayMoments.move.some((maxMoveTime) => maxMoveTime === moveTime)) {
+        if (
+          sayMoments.move.includes(moveTime) ||
+          sayMoments["move-every"].some((interval) => moveTime % interval === 0)
+        ) {
           say(getIntl(config.lang).alerts.move, voices);
         }
       }
@@ -631,7 +638,7 @@
    * Sorts different types of moments into separate categories
    */
   const prepareMoments = (rawMoments) => {
-    const moments = { move: [], every: [], unique: [] };
+    const moments = { move: [], "move-every": [], every: [], unique: [] };
     rawMoments.forEach((raw) => {
       if (raw.length === 5) {
         moments.unique.push(raw);
@@ -664,6 +671,7 @@
       "readPlayer1",
       "readPlayer2",
       "readTime",
+      "saySeconds",
     ],
     (data) => {
       config = data;
