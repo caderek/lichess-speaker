@@ -502,7 +502,7 @@
     const handler = () => {
       const words = getIntl(config.lang).moves || getIntl("en-US").moves;
 
-      const $moves = $node.querySelectorAll("u8t");
+      const $moves = $node.querySelectorAll("kwdb");
       const turn = $moves.length % 2 === 0 ? "black" : "white";
 
       if ($moves.length > movesLength) {
